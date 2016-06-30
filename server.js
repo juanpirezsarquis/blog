@@ -24,7 +24,7 @@ var uri;
 if (app.get('env') === 'development') {
 
   //'mongodb://user:pass@localhost:port/database';
-  uri = 'mongodb://localhost:27017/blog';
+  uri = 'mongodb://localhost:27017/blogdb';
   // uri = 'mongodb://user:pass@localhost:port,anotherhost:port,yetanother:port/mydatabase';
 }
 
@@ -41,6 +41,9 @@ db.on('disconnected', function(ref){
 db.on('close', function(ref){
   console.log("MONGO:close");
 })
+
+// pass passport for configuration
+require('./config/passport')(passport);
 
 //PASSPORT - PARA EL LOGUEO
 app.use(passport.initialize());
@@ -89,7 +92,6 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
-//app.use('/users', users);
 app.use('/apiblog', apiblog);
 
 
@@ -107,7 +109,7 @@ app.use(function(req, res, next) {
 if (app.get('env') === 'development') {
   app.use(function(err, req, res, next) {
     res.status(err.status || 500);
-    res.render('error', {
+    res.json({
       message: err.message,
       error: err
     });
@@ -118,7 +120,7 @@ if (app.get('env') === 'development') {
 // no stacktraces leaked to user
 app.use(function(err, req, res, next) {
   res.status(err.status || 500);
-  res.render('error', {
+  res.json('error', {
     message: err.message,
     error: {}
   });
