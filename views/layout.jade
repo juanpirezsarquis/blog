@@ -1,0 +1,19 @@
+doctype html
+html(ng-app='BlogApp', lang="es")
+  head
+    title= title
+    script(src='/javascripts/angular/angular.js')
+    script(src='/javascripts/angular/angular-resource.js')
+    script(src='/javascripts/angular/angular-route.js')
+    script(src='/javascripts/bootstrap/angular-ui-bootstrap.js')
+    link(rel='stylesheet', href='/stylesheets/bootstrap/bootstrap.min.css')
+    link(rel='stylesheet', href='/stylesheets/bootstrap/bootstrap-theme.min.css')
+    link(rel='stylesheet', href='/stylesheets/style.css')
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+    
+    script(src='/javascripts/blogApp.js')
+    script(src='/javascripts/controllers.js')
+  body
+    include ../public/partials/header.html
+    block content
+    include ../public/partials/footer.html

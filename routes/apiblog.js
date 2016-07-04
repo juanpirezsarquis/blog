@@ -27,7 +27,6 @@ apiblog.post('/signup', function(req, res) {
 
 // route to authenticate a user (POST http://localhost:8080/apiblog/authenticate)
 apiblog.post('/authenticate', function(req, res) {
-  console.log('u: '+req.body.username+' p: '+req.body.password);
   User.findOne({
     username: req.body.username
   }, function(err, user) {
@@ -51,25 +50,86 @@ apiblog.post('/authenticate', function(req, res) {
   });
 });
 
-apiblog.get('/memberinfo', passport.authenticate('jwt', { session: false}), function(req, res) {
-  var token = getToken(req.headers);
+apiblog.use(passport.authenticate('jwt', { session: false}), function(req, res, next) {
+  var token = req.body.token || req.query.token || req.headers['x-access-token'] || getToken(req.headers);
   if (token) {
     var decoded = jwt.decode(token, config.secret);
     User.findOne({
-      name: decoded.name
+      username: decoded.username
     }, function(err, user) {
         if (err) throw err;
  
         if (!user) {
-          return res.status(403).send({success: false, msg: 'Authentication failed. User not found.'});
+          return res.status(403).send({success: false, msg: 'Authentication failed.'});
         } else {
-          res.json({success: true, msg: 'Welcome in the member area ' + user.name + '!'});
+          //res.json({success: true, msg: 'Welcome in the member area ' + user.name + '!'});
+          // if everything is good, save to request for use in other routes
+          req.decoded = decoded;    
+          next();
         }
     });
   } else {
-    return res.status(403).send({success: false, msg: 'No token provided.'});
+    return res.status(403).send({success: false, msg: 'Authentication failed.'});
   }
 });
+
+apiblog.get('/memberinfo', function(req, res) {
+  console.log(req.decoded);
+  res.json({success: true, msg: 'Welcome in the member area ' + req.decoded.username + '!'});
+});
+
+/*apiblog.get('/memberinfo', passport.authenticate('jwt', { session: false}), function(req, res) {
+  var token = getToken(req.headers);
+  if (token) {
+    var decoded = jwt.decode(token, config.secret);
+    User.findOne({
+      username: decoded.username
+    }, function(err, user) {
+        if (err) throw err;
+ 
+        if (!user) {
+          return res.status(403).send({success: false, msg: 'Authentication failed.'});
+        } else {
+          res.json({success: true, msg: 'Welcome in the member area ' + user.username + '!'});
+        }
+    });
+  } else {
+    return res.status(403).send({success: false, msg: 'Authentication failed.'});
+  }
+});*/
+
+// route middleware to verify a token
+/*apiRoutes.use(function(req, res, next) {
+
+  // check header or url parameters or post parameters for token
+  var token = req.body.token || req.query.token || req.headers['x-access-token'];
+
+  // decode token
+  if (token) {
+
+    // verifies secret and checks exp
+    jwt.verify(token, app.get('superSecret'), function(err, decoded) {      
+      if (err) {
+        return res.json({ success: false, message: 'Failed to authenticate token.' });    
+      } else {
+        // if everything is good, save to request for use in other routes
+        req.decoded = decoded;    
+        next();
+      }
+    });
+
+  } else {
+
+    // if there is no token
+    // return an error
+    return res.status(403).send({ 
+        success: false, 
+        message: 'No token provided.' 
+    });
+    
+  }
+}); */
+
  
 getToken = function (headers) {
   if (headers && headers.authorization) {

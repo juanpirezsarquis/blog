@@ -9,6 +9,7 @@ var postSchema = new Schema({
   date: { type: Date, default: Date.now },
   public: Boolean,
   slider: Boolean,
+  tags: [ _id : Schema.Types.ObjectId],
   edited: [author: String, date: Date],
   comments: [{ email: String, body: String, date: Date }],
   meta: {
