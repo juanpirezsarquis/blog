@@ -1,6 +1,7 @@
 var express = require('express');
 var User = require('../models/user');
-var jwt = require('jwt-simple');
+//var jwt = require('jwt-simple');
+var jwt = require('jsonwebtoken');
 var config = require('../config/database');
 var passport  = require('passport');
 var apiblog = express.Router();
@@ -8,7 +9,7 @@ var apiblog = express.Router();
 // create a new user account (POST http://localhost:8080/apiblog/signup)
 apiblog.post('/signup', function(req, res) {
   if (!req.body.username || !req.body.password || !req.body.email) {
-    res.json({success: false, msg: 'Debe ingresar nombre, password y email.'});
+    res.json({success: false, message: 'Debe ingresar nombre, password y email.'});
   } else {
     var newUser = new User({
       username: req.body.username,
@@ -18,9 +19,9 @@ apiblog.post('/signup', function(req, res) {
     // save the user
     newUser.save(function(err) {
       if (err) {
-        return res.json({success: false, msg: 'Ya existe un usuario con ese nombre.'});
+        return res.json({success: false, message: 'Ya existe un usuario con ese nombre.'});
       }
-      res.json({success: true, msg: 'Usuario creado.'});
+      res.json({success: true, message: 'Usuario creado.'});
     });
   }
 });
@@ -33,27 +34,43 @@ apiblog.post('/authenticate', function(req, res) {
     if (err) throw err;
  
     if (!user) {
-      res.send({success: false, msg: 'Usuario o clave incorrectos.'});
+      res.send({success: false, message: 'Usuario o clave incorrectos.'});
     } else {
       // check if password matches
       user.comparePassword(req.body.password, function (err, isMatch) {
         if (isMatch && !err) {
           // if user is found and password is right create a token
-          var token = jwt.encode(user, config.secret);
+          var token = jwt.sign(user, config.secret, {
+            expiresInMinutes: 480 // expires in 8 hours
+          });
+          //var token = jwt.encode(user, config.secret);
+          // res.json({success: true, message: '', token: 'JWT ' + token});
           // return the information including token as JSON
-          res.json({success: true, token: 'JWT ' + token});
+          res.json({success: true, token: token});
         } else {
-          res.send({success: false, msg: 'Usuario o clave incorrectos.'});
+          res.send({success: false, message: 'Usuario o clave incorrectos.'});
         }
       });
     }
   });
 });
 
-apiblog.use(passport.authenticate('jwt', { session: false}), function(req, res, next) {
+//apiblog.use(passport.authenticate('jwt', { session: false}), function(req, res, next) {
+apiblog.use(function(req, res, next) {
+  console.log('Autenticando');
   var token = req.body.token || req.query.token || req.headers['x-access-token'] || getToken(req.headers);
   if (token) {
-    var decoded = jwt.decode(token, config.secret);
+    // verifies secret and checks exp
+    jwt.verify(token, config.secret, function(err, decoded) {      
+      if (err) {
+        return res.json({ success: false, message: 'Failed to authenticate token.' });    
+      } else {
+        // if everything is good, save to request for use in other routes
+        req.decoded = decoded;    
+        next();
+      }
+    });
+    /*var decoded = jwt.decode(token, config.secret);
     User.findOne({
       username: decoded.username
     }, function(err, user) {
@@ -67,7 +84,7 @@ apiblog.use(passport.authenticate('jwt', { session: false}), function(req, res, 
           req.decoded = decoded;    
           next();
         }
-    });
+    });*/
   } else {
     return res.status(403).send({success: false, msg: 'Authentication failed.'});
   }
