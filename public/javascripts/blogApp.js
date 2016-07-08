@@ -1,10 +1,10 @@
-app = angular.module('blogApp', ['ngRoute', 'ngResource', 'ui.bootstrap']);
+app = angular.module('BlogApp', ['ngRoute', 'ngResource', 'ui.bootstrap']);
 
 app.config(['$routeProvider', function($routeProvider){
 	$routeProvider
 	.when('/', {
 		templateUrl : 'partials/index.html',
-		controller : 'StatsAdminCtrl'
+		controller : 'PublicBlogCtrl'
 	})
 	.when('/login', {
 		templateUrl : 'partials/login.html',
