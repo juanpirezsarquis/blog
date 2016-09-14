@@ -1,0 +1,74 @@
+<div class="container" ng-controller="PostCtrl">
+	<div class="row">
+		<div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1" ng-model="post" ng-show="exists">
+			<img ng-src="{{ post.image }}" style="max-width: 100%; max-height: 100%;" />
+			<h1>{{ post.title }}</h1>
+			<div >
+				<div class="pull-left">
+					{{ post.author }}
+				</div>
+				<div class="pull-right">
+					 {{ post.date | date: "dd/MM/yyyy HH:mm" }}
+				</div>
+			</div>
+			<div ng-repeat="edit in post.edited" ng-hide="!post">
+				<div class="pull-left">
+					Edited by: {{ edit.author }}
+				</div>
+				<div class="pull-right">
+					{{ edit.date | date: "dd/MM/yyyy HH:mm" }}
+				</div>
+			</div>
+			<hr>
+			<h3>{{ post.resume }}</h3>
+			<div ng-bind-html="post.body">
+				<!--{{ post.body }}-->
+			</div>
+			<br>
+			<hr>
+		</div>
+		<div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1" ng-model="post" ng-hide="exists">
+			<h1>Ha ocurrido un problema.</h1>
+			<div >
+				No fue posible mostrar el post seleccionado.
+			</div>
+			<br>
+		</div>
+
+		<div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1 sharesocial">
+			<div class="pull-right" ng-show="exists">
+					Compartir en 
+					<a href="{{ actual }}"
+						socialshare
+						socialshare-provider="facebook"
+						socialshare-text="{{ post.title }}"
+						socialshare-media="{{ post.image }}"
+						socialshare-via="cayacare"
+						socialshare-url="{{ link }}">
+						<i class="fa fa-facebook-square"></i>
+					</a>
+					<a href="{{ actual }}"
+						socialshare
+						socialshare-provider="google"
+						socialshare-url="{{ link }}">
+						<i class="fa fa-google-plus-square"></i>
+					</a>
+					<a href="{{ actual }}"
+						socialshare
+						socialshare-provider="twitter"
+						socialshare-text="{{ post.title }}"
+						socialshare-via="cayacare"
+						socialshare-url="{{ link }}">
+						<i class="fa fa-twitter-square"></i>
+					</a>
+				</div>
+				<div class="pull-left">
+					<a href="#/">Regresar al inicio.</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<br>
+</div>
+
+

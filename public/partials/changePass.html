@@ -1,0 +1,49 @@
+<div class="container" ng-controller="ChangePassCtrl">
+	<div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1">
+		<form name="changePwdForm" ng-submit="submitForm(changePwdForm.$valid)" novalidate> 
+			<h1>Change password</h1>
+			<hr>
+
+			<div class="input-group input-group-lg">
+			  	<span class="input-group-addon" id="sizing-addon1" >Old password</span>
+			  	<input name="oldpassword" type="password" class="form-control" ng-model="oldpassword" required>
+		    </div>
+		    <div ng-messages="changePwdForm.oldpassword.$error" ng-show="showErrors">
+				<p ng-message="required" class="bg-danger">Old password is required.</p>
+			</div>
+			<br>
+
+			<div class="input-group input-group-lg">
+			  	<span class="input-group-addon" id="sizing-addon1" >New password</span>
+			  	<input name="newpassword" type="password" class="form-control" ng-model="newpassword" required>
+		    </div>
+		    <div ng-messages="changePwdForm.newpassword.$error" ng-show="showErrors">
+				<p ng-message="required" class="bg-danger">New password is required.</p>
+			</div>
+			<br>
+			<div class="input-group input-group-lg">
+			  	<span class="input-group-addon" id="sizing-addon1" >Repeat new password</span>
+			  	<input name="newpassword2" type="password" class="form-control" ng-model="newpassword2" required ng-match="newpassword">
+		    </div>
+		    <div ng-messages="changePwdForm.newpassword2.$error" ng-show="showErrors">
+				<p ng-message="required" class="bg-danger">New password is required again.</p>
+			</div>
+			<div ng-show="notmatches">
+				<p ng-message="required" class="bg-danger">New passwords do not match.</p>
+			</div>
+			
+			<br>
+
+			<hr>
+			<div class="btn-group" role="group">
+				<input type="submit" class="btn btn-lg btn-success" value="Save"></input>
+			</div>
+			<div>
+				<p class="bg-danger" ng-show="saveError">An error ocurred! Verify your password...</p>
+				<p class="bg-danger" ng-show="sessionExpired">Your session is expired. Save your work locally and login again.</p>
+				<p class="bg-success" ng-show="saveOK">Password changed.</p>
+			</div>
+			<br>
+		</form>
+	</div>
+</div>

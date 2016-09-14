@@ -1,4 +1,4 @@
 module.exports = {
   'secret': 'myBlogPirex',
-  'database': 'mongodb://localhost/node-rest-auth'
+  'database': 'mongodb://localhost:27017/blogdb'
 };

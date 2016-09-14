@@ -1,3 +1,81 @@
-<div>
-Hello world!
+<div ng-controller="IndexCtrl">
+  <!--CAROUSEL -->
+  <div class="c-wrapper">
+	  <div class="carousel">
+	    <div uib-carousel active="active" interval="myInterval" no-wrap="noWrapSlides">
+	      <div uib-slide ng-repeat="slide in slides track by slide.id" index="slide.id">
+	        <img class="img-responsive center-block" ng-src="{{slide.image}}" >
+	        <div class="carousel-caption">
+	          <h3>{{slide.title}}</h3>
+	          <p>{{slide.text}} <a href="" ng-click="viewPost(slide.postId)">Continuar leyendo...</a></p>
+
+	        </div>
+	      </div>
+	    </div>
+	  </div>
+  </div>
+
+  <hr >
+  <div class="container marketing">
+
+	  <!--POSTs destacados -->
+	  <div class="row">
+		  <div class="col-md-4" ng-repeat="topPost in topPosts">
+		    <div class="thumbnail">
+		      <img ng-src="{{topPost.image}}" alt="{{topPost.title}} image" class="img-circle" width="140" height="140">
+		      <div class="caption">
+		        <h3>{{topPost.title}}</h3>
+		        <p>{{topPost.resume}}</p>
+				<a href="" ng-click="viewPost(topPost._id)">Continuar leyendo...</a>
+		      </div>
+		    </div>
+		  </div>
+	  </div>
+	  <!--POSTs -->
+      <div class="row">
+      	  <div ng-repeat="post in posts">
+		    <div ng-if="$even">
+			  	<div class="media"  >  
+			  	  <div class="media-left media-middle">
+				    <a href="" ng-click="viewPost(post._id)">
+				      <img class="media-object" ng-src="{{ post.image }}" alt="{{post.title}} image" width="400" height="400">
+				    </a>
+				  </div>
+				  <div class="media-body media-middle">
+				    <h1 class="media-heading">{{ post.title }}</h1>
+				    <div >
+					    {{ post.resume }}
+					    <a href="" ng-click="viewPost(post._id)">Continuar leyendo...</a>
+					 </div>
+				  </div>
+				</div>
+		  	</div>
+		  	<div ng-if="$odd">
+		  		<div class="media"  >
+			  	  <div class="media-body media-middle">
+				    <h1 class="media-heading">{{ post.title }}</h1>
+				    <div >
+					    {{ post.resume }}
+					    <a href="" ng-click="viewPost(post._id)">Continuar leyendo...</a>
+					</div>
+				  </div>
+				  <div class="media-right media-middle">
+				    <a href="" ng-click="viewPost(post._id)">
+				      <img class="media-object" ng-src="{{ post.image }}" alt="{{post.title}} image" width="400" height="400">
+				    </a>
+				  </div>
+				</div>
+		  	</div>
+			<!--HR to separate each posts -->
+			<hr >
+		  </div>
+		</div>
+		<div class="row" style="text-align: center">
+			<div ng-if="morePostsAvailable" >
+				<a href="" ng-click="loadMorePosts()">Cargar mas contenido</a>
+			</div>
+		</div>
+	</div>
 </div>
+
+

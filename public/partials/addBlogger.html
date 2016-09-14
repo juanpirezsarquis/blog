@@ -1,0 +1,46 @@
+<div class="container" ng-controller="AddBloggerCtrl">
+	<div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1">
+		<form name="newBloggerForm" ng-submit="submitForm(newBloggerForm.$valid)" > 
+			<h1>Add new blogger</h1>
+			<hr>
+
+			<div class="input-group input-group-lg">
+			  	<span class="input-group-addon" id="sizing-addon1" >Username</span>
+			  	<input name="username" type="text" class="form-control" ng-model="username" required="true">
+		    </div>
+		    <div ng-messages="newBloggerForm.username.$error" ng-show="showErrors">
+				<p ng-message="required" class="bg-danger">Username is required.</p>
+			</div>
+			<br>
+
+			<div class="input-group input-group-lg">
+			  	<span class="input-group-addon" id="sizing-addon1" >Password</span>
+			  	<input name="password" type="password" class="form-control" ng-model="password" required="true">
+		    </div>
+		    <div ng-messages="newBloggerForm.password.$error" ng-show="showErrors">
+				<p ng-message="required" class="bg-danger">Password is required.</p>
+			</div>
+			<br>
+			
+			<div class="input-group input-group-lg">
+			  	<span class="input-group-addon" id="sizing-addon1" >e-Mail</span>
+			  	<input name="email" type="email" class="form-control" ng-model="email" required="true">
+		    </div>
+		    <div ng-messages="newBloggerForm.newpassword2.$error" ng-show="showErrors">
+				<p ng-message="required" class="bg-danger">e-mail is required.</p>
+				<p ng-message="email">The input is not a valid e-mail.
+			</div>
+			<br>
+
+			<hr>
+			<div class="btn-group" role="group">
+				<input type="submit" class="btn btn-lg btn-success" value="Save"></input>
+			</div>
+			<div>
+				<p class="bg-danger" ng-show="saveError">An error ocurred! Try again...</p>
+				<p class="bg-danger" ng-show="sessionExpired">Your session is expired. Save your work locally and login again.</p>
+			</div>
+			<br>
+		</form>
+	</div>
+</div>

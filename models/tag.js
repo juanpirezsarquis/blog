@@ -3,7 +3,7 @@ var Schema = mongoose.Schema;
 
 var tagSchema = new Schema({
   name: String,
-  posts : [_id : Schema.Types.ObjectId]
+  posts : [Schema.Types.ObjectId]
 });
 
 var Tag = mongoose.model('Tag', tagSchema);

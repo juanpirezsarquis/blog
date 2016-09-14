@@ -1,0 +1,63 @@
+<div class="container" ng-controller="NewPostCtrl">
+	<div class="col-lg-10 col-lg-offset-1 col-md-10 col-md-offset-1">
+		<form name="newPostForm" ng-submit="submitForm(newPostForm.$valid)" novalidate> 
+			<h1>New post</h1>
+			<hr>
+
+			<div class="input-group input-group-lg">
+			  	<span class="input-group-addon" id="sizing-addon1" >Title</span>
+			  	<input name="title" type="text" class="form-control" ng-model="post.title" required>
+		    </div>
+		    <div ng-messages="newPostForm.post.title.$error" ng-show="showErrors">
+				<p ng-message="required" class="bg-danger">Title is required.</p>
+			</div>
+			<br>
+
+			<div class="input-group input-group-lg">
+			  	<span class="input-group-addon" id="sizing-addon1" >Image</span>
+			  	<input name="image" type="text" class="form-control" ng-model="post.image">
+		    </div>
+		    <br>
+
+			<div class="input-group input-group-lg">
+			  	<span class="input-group-addon" id="sizing-addon1" >Resume</span>
+			  	<input name="resume" type="text" class="form-control" ng-model="post.resume" required>
+		    </div>
+		    <div ng-messages="newPostForm.post.resume.$error" ng-show="showErrors">
+				<p ng-message="required" class="bg-danger">Resume is required.</p>
+			</div>
+			<br>
+			<div class="input-group input-group-lg">
+				<label class="checkbox-inline">
+				  <input type="checkbox" id="public" name="public" ng-model="post.public"> Make this post public
+				</label>
+				<label class="checkbox-inline">
+				  <input type="checkbox" id="slider" name="slider" ng-model="post.slider"> Add this post to the slides
+				</label>
+				<label class="checkbox-inline">
+				  <input type="checkbox" id="top" name="top" ng-model="post.top"> Add this post to the top posts
+				</label>
+			</div>
+			<br>
+
+			<div class="input-group input-group-lg">
+				<div class="panel panel-default">
+			    	<div class="panel-heading"><h4>Body</h4></div>
+			    	<div class="panel-body">
+			    		<div text-angular ng-model="post.body" name="body" ta-text-editor-class="border-around" ta-html-editor-class="border-around"></div>
+			    	</div>
+			    </div>
+			</div>
+
+			<hr>
+			<div class="btn-group" role="group">
+				<input type="submit" class="btn btn-lg btn-success" value="Save"></input>
+			</div>
+			<div>
+				<p class="bg-danger" ng-show="saveError">An error ocurred! Try again...</p>
+				<p class="bg-danger" ng-show="sessionExpired">Your session is expired. Save your work locally and login again.</p>
+			</div>
+			<br>
+		</form>
+	</div>
+</div>

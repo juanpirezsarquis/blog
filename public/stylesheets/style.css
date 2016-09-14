@@ -1,8 +1,92 @@
+.navbar {
+   background-color: transparent;
+   background: transparent;
+   border-color: transparent;
+   margin-bottom: 0px;
+}
+
+.navbar-inner {
+    background-color:transparent;
+}
+
+.navbar li { color: #FFF } 
+
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+  position: relative;
+  min-height: 100%;
+}
+
 body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  /* Margin bottom by footer height */
+  margin-bottom: 100px;
+}
+
+footer {
+  position: absolute;
+  padding-top:20px;
+  bottom: 0;
+  width: 100%;
+  height: 100px; /* Set the fixed height of the footer */
+  background-color: #f5f5f5;
+  clear: both;
+}
+
+footer > .container > p {
+	font-size: 24px;
+}
+/* Custom page CSS
+-------------------------------------------------- */
+
+.carousel .item {
+  min-width: 100%; /* use this, or not */
+  height: 400px;
+  background-color: #777;
 }
 
 a {
-  color: #00B7FF;
+	color: #06C142;
+
+}
+
+a:hover, a:focus {
+	color: #82e0a0;
+}
+
+/*.c-wrapper{
+	width:100%;
+	height: 400px;
+	overflow: hidden;
+	justify-content: center;
+	display: flex;
+}
+*/
+/*.carousel-inner {
+	min-width: 100%; /* use this, or not */
+/*	height: 400px;
+	margin: auto;
+}*/
+
+/*.carousel-inner img {
+	min-width: 100%; /* use this, or not */
+/*	vertical-align: middle;
+}*/
+
+.carousel-inner img {
+	max-height: 100%;
+	/*max-width: 100%;*/
+	width: 100%;
+	position:relative;
+    top:50%;
+    transform: translateY(-50%);
+	margin: auto;
+}
+
+/*.carousel-caption {
+	position: sticky;
+
+}*/
+.sharesocial {
+  font-size: 2em;
 }
